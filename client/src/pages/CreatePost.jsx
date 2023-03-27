@@ -101,13 +101,25 @@ const CreatePost = () => {
         </div>
 
         <div className="mt-5 flex gap-5">
-          <button
-            type="button"
-            onClick={generateImage}
-            className="text-white bg-green-700 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-          >
-            {generatingImg ? "Generating..." : "Generate"}
-          </button>
+          {generatingImg ? (
+            <button
+              type="button"
+              disabled
+              style={{ cursor: "not-allowed" }}
+              onClick={generateImage}
+              className="text-white bg-green-900 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+            >
+              Generating...
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={generateImage}
+              className="text-white bg-green-700 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+            >
+              Generate
+            </button>
+          )}
         </div>
 
         <div className="mt-10">
