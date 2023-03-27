@@ -13,9 +13,14 @@ const CreatePost = () => {
 
   const handleSubmit = () => {};
 
-  const handleChange = (e) => {};
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-  const handleSurpriseMe = () => {};
+  const handleSurpriseMe = () => {
+    const randomPrompt = getRandomPrompt(form.prompt);
+    setForm({ ...form, prompt: randomPrompt });
+  };
 
   const generateImage = () => {};
 
@@ -36,6 +41,7 @@ const CreatePost = () => {
             type="text"
             placeholder="John Doe"
             value={form.name}
+            name="name"
             handleChange={handleChange}
           />
           <FormField
@@ -43,6 +49,7 @@ const CreatePost = () => {
             type="text"
             placeholder="..."
             value={form.prompt}
+            name="prompt"
             handleChange={handleChange}
             isSurpriseMe
             handleSurpriseMe={handleSurpriseMe}
