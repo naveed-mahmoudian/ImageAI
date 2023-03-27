@@ -11,8 +11,6 @@ const CreatePost = () => {
   const [generatingImg, setGeneratingImg] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {};
-
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -43,6 +41,33 @@ const CreatePost = () => {
       }
     } else {
       alert("Please enter a prompt");
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (form.prompt && form.photo) {
+      setLoading(true);
+
+      try {
+        const response = await fetch("http://localhost:8080/api/v1/post", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form),
+        });
+
+        await response.json();
+        navigate("/");
+      } catch (err) {
+        alert(err);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      alert("Please enter a prompt and generate an image");
     }
   };
 
@@ -127,12 +152,23 @@ const CreatePost = () => {
             Once you have created the image, you can share it with others in the
             community on the home page
           </p>
-          <button
-            type="submit"
-            className="mt-3 text-white bg-[#6469ff] font-medium rounded-md test-sm w-full sm:w-auto px-5 py-2.5 text-center"
-          >
-            {loading ? "Sharing..." : "Share with the community"}
-          </button>
+          {loading ? (
+            <button
+              type="submit"
+              disabled
+              style={{ cursor: "not-allowed" }}
+              className="mt-3 text-white bg-[#3b3e9c] font-medium rounded-md test-sm w-full sm:w-auto px-5 py-2.5 text-center"
+            >
+              Sharing...
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="mt-3 text-white bg-[#6469ff] font-medium rounded-md test-sm w-full sm:w-auto px-5 py-2.5 text-center"
+            >
+              Share with the community
+            </button>
+          )}
         </div>
       </form>
     </section>
